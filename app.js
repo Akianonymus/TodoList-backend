@@ -166,6 +166,21 @@ app.post("/new", auth, (request, response) => {
     });
 });
 
+// to fetch all todos from the db
+app.get("/tasks", auth, (request, response) => {
+  const username = request.user.userName;
+
+  Todo.find({ author: username }, (error, tasks) => {
+    if (error) return response.status(500).send(error);
+
+    let total_todos = tasks.length;
+    response.status(200).send({
+      total_todos,
+      tasks,
+    });
+  });
+});
+
 // edit task
 app.post("/edit/:id", auth, (request, response) => {
   const id = request.params.id;
