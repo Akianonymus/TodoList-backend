@@ -39,8 +39,8 @@ app.get("/", (_, response, next) => {
   next();
 });
 
-// register endpoint
-app.post("/register", (request, response) => {
+// signup endpoint
+app.post("/signup", (request, response) => {
   // hashing the password before sending it to db
   // 10 is salt rounds
   bcrypt
@@ -79,8 +79,8 @@ app.post("/register", (request, response) => {
     });
 });
 
-// login endpoint
-app.post("/login", (request, response) => {
+// signin endpoint
+app.post("/signin", (request, response) => {
   // check if username exists
   User.findOne({ username: request.body.username })
 

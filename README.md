@@ -4,8 +4,8 @@ Made using nodejs, mondodb and express js.
 
 ## API Endpoints
 
-- `/register`
-- `/login`
+- `/signup`
+- `/signin`
 - `/new` - Create a new todo task.
 - `/tasks` - Returns all the tasks and number of tasks
 - `/edit/:id` - id being the todo id ( mongodb id )
