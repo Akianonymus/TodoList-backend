@@ -4,6 +4,8 @@ const express = require("express");
 const app = express();
 const jwt = require("jsonwebtoken");
 
+require("dotenv").config();
+
 const auth = require("./auth");
 // require database connection
 const dbConnect = require("./db/dbConnect");
@@ -39,6 +41,12 @@ app.get("/", (_, response, next) => {
   next();
 });
 
+app.get("/auth", auth, (request, response) => {
+  response
+    .status(200)
+    .send({ message: `User ${request.user.userName} authorized` });
+});
+
 // signup endpoint
 app.post("/signup", (request, response) => {
   // hashing the password before sending it to db
@@ -64,10 +72,17 @@ app.post("/signup", (request, response) => {
         })
         // catch error if the new user wasn't added successfully to the database
         .catch((error) => {
-          response.status(500).send({
-            message: "Error creating user",
-            error,
-          });
+          if (error?.keyValue?.username === request.body.username) {
+            response.status(409).send({
+              message: `User ${request.body.username} Already Exists`,
+            });
+          } else {
+            console.log(error);
+            response.status(500).send({
+              message: "Error creating user",
+              error,
+            });
+          }
         });
     })
     // catch error if the password hash isn't successful
@@ -94,7 +109,7 @@ app.post("/signin", (request, response) => {
         .then((passwordCheck) => {
           // check if password matches
           if (!passwordCheck) {
-            return response.status(400).send({
+            return response.status(401).send({
               message: "Passwords does not match",
               error,
             });
@@ -107,7 +122,7 @@ app.post("/signin", (request, response) => {
               userName: user.username,
             },
             "RANDOM-TOKEN",
-            { expiresIn: "24h" }
+            { expiresIn: "30d" }
           );
 
           //   return success response
@@ -119,7 +134,7 @@ app.post("/signin", (request, response) => {
         })
         // catch error if password does not match
         .catch((error) => {
-          response.status(400).send({
+          response.status(401).send({
             message: "Passwords does not match",
             error,
           });
@@ -138,13 +153,15 @@ app.post("/signin", (request, response) => {
 app.post("/new", auth, (request, response) => {
   const content = request.body.content;
   const author = request.user.userName;
-  if (content.trim() == 0) {
+
+  if (content.trim() === "") {
+    response.status(400).send({
+      message: "Empty content",
+    });
     return;
   }
-  const todoTask = new Todo({
-    author,
-    content,
-  });
+
+  const todoTask = new Todo({ author, content });
 
   // save the new user
   todoTask

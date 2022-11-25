@@ -6,6 +6,7 @@ Made using nodejs, mondodb and express js.
 
 - `/signup`
 - `/signin`
+- `/auth` - To check authentication
 - `/new` - Create a new todo task.
 - `/tasks` - Returns all the tasks and number of tasks
 - `/edit/:id` - id being the todo id ( mongodb id )
