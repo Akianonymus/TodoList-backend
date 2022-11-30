@@ -237,7 +237,7 @@ app.post("/delete/:id", auth, (request, response) => {
 // delete all tasks
 app.post("/deleteall", auth, (request, response) => {
   const user = request.user.userName;
-  Todo.deleteMany({ user }, (error) => {
+  Todo.deleteMany({ author: user }, (error) => {
     if (error)
       return response.status(500).send({
         message: "Error deleting all tasks.",
