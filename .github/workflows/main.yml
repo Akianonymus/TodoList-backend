@@ -1,0 +1,15 @@
+name: Keep alive backend
+
+on:
+  push:
+    branches:
+      - 'master'
+  schedule:
+    - cron: '*/13 * * * *'
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v1
+            - name: Ping
+              run: curl https://aki-todolist.onrender.com/
