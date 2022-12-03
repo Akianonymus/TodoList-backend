@@ -5,11 +5,11 @@ on:
     branches:
       - 'master'
   schedule:
-    - cron: '*/13 * * * *'
+    - cron: '*/12 * * * *'
 jobs:
     build:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v1
             - name: Ping
-              run: curl https://aki-todolist.onrender.com/
+              run: curl https://aki-todolist.onrender.com/ -v
