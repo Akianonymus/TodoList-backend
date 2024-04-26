@@ -1,14 +1,15 @@
 # Backend for TodoList app
 
-Made using nodejs, mondodb and express js.
+Made using Node Js, MongoDb and Nest Js .
 
 ## API Endpoints
 
-- `/signup`
-- `/signin`
 - `/auth` - To check authentication
-- `/new` - Create a new todo task.
-- `/tasks` - Returns all the tasks and number of tasks
-- `/edit/:id` - id being the todo id ( mongodb id )
-- `/delete/:id`
-- `/deleteall` - Delete all todo task for the given username.
+- `/auth/register` - Register new user
+- `/auth/login` - Login existing user
+- `/auth/refreshAccessToken` - Regenerate Access Token using Refresh Token
+- `/todo` - Returns all the tasks and number of tasks
+- `/todo/new` - Create a new todo task.
+- `/todo/update` - Update an existing todo
+- `/todo/delete`
+- `/todo/deleteAll` - Delete all todo task for the given username.
