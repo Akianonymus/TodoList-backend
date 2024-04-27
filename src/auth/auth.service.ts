@@ -25,7 +25,7 @@ export class AuthService {
     try {
       const existingUser = await this.userService.getUserInfo(
         { email: loginDto.email },
-        { password: 1 },
+        { password: 1, name: 1 },
       );
 
       if (
@@ -58,7 +58,11 @@ export class AuthService {
         'User Logged In Successfully',
         APIConstants.Status.Success,
         APIConstants.StatusCode.Ok,
-        { accessToken: jwtAccessToken, refreshToken: jwtRefreshToken },
+        {
+          accessToken: jwtAccessToken,
+          refreshToken: jwtRefreshToken,
+          name: existingUser.name,
+        },
       );
     } catch (err) {
       return HandleExceptionResponse(
